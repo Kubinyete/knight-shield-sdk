@@ -1,6 +1,6 @@
 <?php
 
-namespace Kubinyete\KnightShieldSdk\Domain\Person\Validation;
+namespace Kubinyete\KnightShieldSdk\Domain\Person\Validation\Exception;
 
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
 use Kubinyete\KnightShieldSdk\Domain\Person\Validation\Validators\BRLocaleValidator;

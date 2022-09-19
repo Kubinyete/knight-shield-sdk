@@ -12,7 +12,7 @@ class Email implements Stringable
     public function __construct(
         string $value,
     ) {
-        $this->value = strtoupper($value);
+        $this->value = $value;
         $this->assertValueIsCorrect();
     }
 

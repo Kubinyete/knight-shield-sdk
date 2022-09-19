@@ -3,8 +3,8 @@
 namespace Kubinyete\KnightShieldSdk\Domain\Person\Validation;
 
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
+use Kubinyete\KnightShieldSdk\Domain\Person\Validation\Exception\ValidationNotImplementedException;
 use Kubinyete\KnightShieldSdk\Domain\Person\Validation\Validators\BRLocaleValidator;
-use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 use UnexpectedValueException;
 
 class DocumentLocaleValidator
@@ -25,8 +25,7 @@ class DocumentLocaleValidator
     protected function getSupportedValidatorByCountryCode(CountryCode $countryCode): LocaleValidatorInterface
     {
         $className = array_key_exists((string)$countryCode, self::LOCALE_VALIDATOR_CLASSMAP) ? self::LOCALE_VALIDATOR_CLASSMAP[(string)$countryCode] : null;
-
-        ValidationNotImplementedException::assert($className);
+        ValidationNotImplementedException::assert($className != null);
 
         $instance = new $className();
 

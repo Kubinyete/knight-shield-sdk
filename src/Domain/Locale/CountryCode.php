@@ -34,4 +34,11 @@ class CountryCode implements Stringable
     {
         return $this->value;
     }
+
+    //
+
+    public static function br(): static
+    {
+        return new static('BR');
+    }
 }

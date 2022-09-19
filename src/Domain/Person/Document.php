@@ -5,9 +5,11 @@ namespace Kubinyete\KnightShieldSdk\Domain\Person;
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
 use Kubinyete\KnightShieldSdk\Domain\Person\Validation\DocumentLocaleValidator;
-use Kubinyete\KnightShieldSdk\Domain\Person\Validation\ValidationNotImplementedException;
+use Kubinyete\KnightShieldSdk\Domain\Person\Validation\Exception\ValidationNotImplementedException;
+use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
+use Stringable;
 
-class Document implements JsonSerializable
+class Document implements JsonSerializable, Stringable
 {
     protected CountryCode $nationality;
     protected string $value;
@@ -25,24 +27,33 @@ class Document implements JsonSerializable
 
     protected function assertValueIsCorrect(string $value): string
     {
+        $value = trim($value);
+
         try {
             $validator = new DocumentLocaleValidator($this->nationality);
 
             switch ((string)$this->type) {
                 case DocumentType::TAX_ID:
-                    return $validator->getLocaleValidator()->validateAsTaxId($value);
+                    $value = $validator->getLocaleValidator()->validateAsTaxId($value);
                 case DocumentType::ID_CARD:
-                    return $validator->getLocaleValidator()->validateAsIdCard($value);
+                    $value = $validator->getLocaleValidator()->validateAsIdCard($value);
                 case DocumentType::PASSPORT:
-                    return $validator->getLocaleValidator()->validateAsPassport($value);
+                    $value = $validator->getLocaleValidator()->validateAsPassport($value);
             }
         } catch (ValidationNotImplementedException $e) {
-            return $validator;
         }
+
+        DomainException::assert(strlen($value) > 0, "Cannot specify an empty document number");
+        return $value;
     }
 
     public function jsonSerialize(): mixed
     {
         return get_object_vars($this);
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }

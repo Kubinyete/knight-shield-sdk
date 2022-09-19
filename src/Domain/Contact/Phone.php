@@ -28,9 +28,10 @@ class Phone implements Stringable
         try {
             $parsedNumber = $lib->parse($value, self::DEFAULT_COUNTRY);
         } catch (NumberParseException $e) {
+            $parsedNumber = null;
         }
 
-        DomainException::assert($parsedNumber, "Value is not a valid phone number.");
+        DomainException::assert($parsedNumber, "Value is not a phone number.");
         DomainException::assert($lib->isValidNumber($parsedNumber), "Value is not a valid phone number.");
 
         return $parsedNumber;
