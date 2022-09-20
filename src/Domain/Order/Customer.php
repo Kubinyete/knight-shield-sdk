@@ -2,6 +2,7 @@
 
 namespace Kubinyete\KnightShieldSdk\Domain\Order;
 
+use DateInterval;
 use DateTime;
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
@@ -9,6 +10,7 @@ use Kubinyete\KnightShieldSdk\Domain\Contact\FixedLinePhone;
 use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
 use Kubinyete\KnightShieldSdk\Domain\Person\Document;
 use Kubinyete\KnightShieldSdk\Domain\Person\Gender;
+use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class Customer implements JsonSerializable
 {
@@ -36,6 +38,22 @@ class Customer implements JsonSerializable
         $this->email = $email;
         $this->mobile_phone = $mobile_phone;
         $this->phone = $phone;
+
+        $this->assertValidFullname();
+        $this->assertValidBirthdate();
+    }
+
+    protected function assertValidFullname(): void
+    {
+        $len = strlen($this->full_name);
+        DomainException::assert($len > 0 && $len <= 128, "Full name should not be empty or is too long to be accepted.");
+    }
+
+    protected function assertValidBirthdate(): void
+    {
+        $now = new DateTime();
+        $diff = $now->diff($this->birth_date);
+        DomainException::assert($diff->y >= 12, "Birth date doesn't make sense and cannot be accepted.");
     }
 
     public function __toString(): string

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use DateInterval;
 use DateTime;
 use Kubinyete\KnightShieldSdk\App\ApiClient;
 use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
@@ -28,6 +29,8 @@ class DomainOrderTest extends TestCase
     public function testOrderCannotHaveNegativeAmount()
     {
         $this->expectException(DomainException::class);
+        $birthdate = (new DateTime())->sub(new DateInterval('P18Y'));
+
         $order = new Order(
             time(),
             -100,
@@ -36,7 +39,7 @@ class DomainOrderTest extends TestCase
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),
-                new DateTime(),
+                $birthdate,
                 new Email('sample@localhost.test'),
                 new MobilePhone('+5518998234532'),
                 null
@@ -57,6 +60,8 @@ class DomainOrderTest extends TestCase
     public function testOrderCannotHaveZeroAmount()
     {
         $this->expectException(DomainException::class);
+        $birthdate = (new DateTime())->sub(new DateInterval('P18Y'));
+
         $order = new Order(
             time(),
             0,
@@ -65,7 +70,7 @@ class DomainOrderTest extends TestCase
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),
-                new DateTime(),
+                $birthdate,
                 new Email('sample@localhost.test'),
                 new MobilePhone('+5518998234532'),
                 null
@@ -86,6 +91,8 @@ class DomainOrderTest extends TestCase
     public function testCanCreateValidOrder()
     {
         $id = time();
+        $birthdate = (new DateTime())->sub(new DateInterval('P18Y'));
+
         $order = new Order(
             $id,
             30,
@@ -94,7 +101,7 @@ class DomainOrderTest extends TestCase
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),
-                new DateTime(),
+                $birthdate,
                 new Email('sample@localhost.test'),
                 new MobilePhone('+5518998234532'),
                 null
@@ -123,7 +130,7 @@ class DomainOrderTest extends TestCase
                     "type" => "T",
                 ],
                 "gender" => "M",
-                "birth_date" => "2022-09-20",
+                "birth_date" => $birthdate->format('Y-m-d'),
                 "email" => "sample@localhost.test",
                 "mobile_phone" => "+5518998234532",
                 "phone" => null,
@@ -179,43 +186,5 @@ class DomainOrderTest extends TestCase
             ],
             "metadata" => null,
         ], $order->jsonSerialize());
-    }
-
-    public function testCanSubmitValidOrder()
-    {
-        $id = time();
-        $order = new Order(
-            $id,
-            30,
-            CurrencyCode::brl(),
-            new Customer(
-                'Vitor Kubinyete',
-                new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
-                Gender::masculine(),
-                new DateTime(),
-                new Email('sample@localhost.test'),
-                new MobilePhone('+5518998234532'),
-                null
-            ),
-            new BillingAddress(CountryCode::br(), new StateCode('SP'), 'Av. Teste', '123C', 'Centro', null, 'Presidente Prudente', '19360000'),
-            null,
-            new Factor('192.168.1.100', null),
-            [
-                new Item(null, 'ITEM A', 10.00, 1, 'ITEMA', null),
-                new Item(null, 'ITEM B', 20.00, 1, 'ITEMB', null),
-            ],
-            [
-                new Payment(PaymentMethod::mastercard(), 30.00, new Card('VITOR K', '5244103872380925', '03', '2023'))
-            ]
-        );
-
-        $client = new ApiClient(new ApiToken(getenv('API_TOKEN')), ApiClient::SUPPORTED_API_VERSION_LATEST, ApiClient::DEFAULT_TIMEOUT_SECONDS, getenv('API_HOST'), getenv('API_PROTOCOL'), getenv('API_PORT'));
-        $response = $client->createOrder($order);
-
-        $this->assertEquals(201, $response->getStatus());
-        $uuid = $response->getResponsePath('id');
-
-        $response = $client->getOrder($uuid);
-        $this->assertEquals($uuid, $response->getResponsePath('id'));
     }
 }

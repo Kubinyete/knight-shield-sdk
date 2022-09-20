@@ -2,11 +2,14 @@
 
 namespace Tests;
 
+use DateInterval;
+use DateTime;
 use Kubinyete\KnightShieldSdk\App\ApiClient;
 use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
 use Kubinyete\KnightShieldSdk\Domain\Contact\FixedLinePhone;
 use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
+use Kubinyete\KnightShieldSdk\Domain\Order\Customer;
 use Kubinyete\KnightShieldSdk\Domain\Person\Document;
 use Kubinyete\KnightShieldSdk\Domain\Person\DocumentType;
 use Kubinyete\KnightShieldSdk\Domain\Person\Gender;
@@ -159,5 +162,36 @@ class DomainCustomerTest extends TestCase
 
         $phone = new FixedLinePhone($phoneString);
         $this->assertEquals($expectedPhoneString, (string)$phone);
+    }
+
+    //
+
+    public function testCustomerAgeShouldNotBeTooLow()
+    {
+        $this->expectException(DomainException::class);
+        $customer = new Customer(
+            'Vitor Kubinyete',
+            new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
+            Gender::masculine(),
+            (new DateTime())->sub(new DateInterval('P9Y')),
+            new Email('sample@localhost.test'),
+            new MobilePhone('+5518998234532'),
+            null
+        );
+    }
+
+    public function testCustomerAgeShouldBeLegal()
+    {
+        $customer = new Customer(
+            'Vitor Kubinyete',
+            new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
+            Gender::masculine(),
+            (new DateTime())->sub(new DateInterval('P18Y')),
+            new Email('sample@localhost.test'),
+            new MobilePhone('+5518998234532'),
+            null
+        );
+
+        $this->assertIsObject($customer);
     }
 }

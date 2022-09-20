@@ -5,6 +5,7 @@ namespace Kubinyete\KnightShieldSdk\Domain\Order;
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Locale\PaymentMethod;
 use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
+use Kubinyete\KnightShieldSdk\Shared\Util\Luhn;
 
 class Card implements JsonSerializable
 {
@@ -38,6 +39,7 @@ class Card implements JsonSerializable
     protected function assertValidNumber(): void
     {
         DomainException::assert(preg_match('/^[0-9]{13,19}$/', $this->number), "Card number should only contain digits with length between 13 and 19 characters.");
+        DomainException::assert(Luhn::check($this->number), "Number is not a valid credit card number.");
     }
 
     protected function assertValidExpiryMonth(): void

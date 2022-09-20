@@ -39,17 +39,19 @@ class Item implements JsonSerializable
 
     protected function assertValidMerchantItemId(): void
     {
-        DomainException::assert(is_null($this->merchant_item_id) || strlen($this->merchant_item_id), "Merchant item ID should not an empty string.");
+        $len = strlen($this->merchant_item_id);
+        DomainException::assert(is_null($this->merchant_item_id) || $len > 0 && $len <= 255, "Merchant item ID should not an empty string or exceed maximum length.");
     }
 
     protected function assertValidName(): void
     {
-        DomainException::assert(strlen($this->name), "Name should not be omitted.");
+        $len = strlen($this->name);
+        DomainException::assert($len > 0 && $len <= 64, "Name should not be omitted or exceed maximum length.");
     }
 
     protected function assertValidUnitPrice(): void
     {
-        DomainException::assert($this->unit_price >= 0, "Unit_price should not be omitted and should be greater or equal to zero.");
+        DomainException::assert($this->unit_price >= 0, "Unit price should not be omitted and should be greater or equal to zero.");
     }
 
     protected function assertValidQuantity(): void
@@ -59,12 +61,14 @@ class Item implements JsonSerializable
 
     protected function assertValidSku(): void
     {
-        DomainException::assert(strlen($this->sku), "Sku should not be omitted.");
+        $len = strlen($this->sku);
+        DomainException::assert($len > 0 && $len <= 12, "Sku should not be omitted or exceed maximum length.");
     }
 
     protected function assertValidDescription(): void
     {
-        DomainException::assert(is_null($this->description) || strlen($this->description), "Description should not be an empty string.");
+        $len = strlen($this->description);
+        DomainException::assert(is_null($this->description) || $len > 0 && $len <= 128, "Description should not be an empty string or exceed maximum length.");
     }
 
 

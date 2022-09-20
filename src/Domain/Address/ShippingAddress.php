@@ -49,16 +49,19 @@ class ShippingAddress extends Address
 
     protected function assertValidShippingTrackingNumber(): void
     {
-        DomainException::assert(is_null($this->shipping_tracking_number) || strlen($this->shipping_tracking_number), "Shipping tracking number cannot be an empty string.");
+        $len = strlen($this->shipping_tracking_number);
+        DomainException::assert(is_null($this->shipping_tracking_number) || $len > 0 && $len <= 32, "Shipping tracking number cannot be an empty string or exceed maximum length.");
     }
 
     protected function assertValidShippingComment(): void
     {
-        DomainException::assert(is_null($this->shipping_comment) || strlen($this->shipping_comment), "Shipping comment cannot be an empty string.");
+        $len = strlen($this->shipping_comment);
+        DomainException::assert(is_null($this->shipping_comment) || $len > 0 && $len <= 256, "Shipping comment cannot be an empty string or exceed maximum length.");
     }
 
     protected function assertValidShippingProvider(): void
     {
-        DomainException::assert(is_null($this->shipping_provider) || strlen($this->shipping_provider), "Shipping provider cannot be an empty string.");
+        $len = strlen($this->shipping_provider);
+        DomainException::assert(is_null($this->shipping_provider) || $len > 0 && $len <= 64, "Shipping provider cannot be an empty string or exceed maximum length.");
     }
 }
