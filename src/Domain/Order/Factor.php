@@ -33,6 +33,11 @@ class Factor implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'with_ip_address' => $this->with_ip_address,
+            'with_fingerprint' => $this->with_fingerprint,
+            'is_vip_customer' => $this->is_vip_customer,
+            'days_since_first_purchase' => $this->days_since_first_purchase,
+        ];
     }
 }

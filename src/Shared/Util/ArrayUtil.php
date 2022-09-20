@@ -6,17 +6,17 @@ abstract class ArrayUtil
 {
     public const SEPARATOR = '.';
 
-    public static function popKey(string $key, array &$array, mixed $default = null): mixed
-    {
-        $value = $default;
+    // public static function popKey(string $key, array &$array, mixed $default = null): mixed
+    // {
+    //     $value = $default;
 
-        if (isset($array[$key])) {
-            $value = $array[$key];
-            unset($array[$key]);
-        }
+    //     if (isset($array[$key])) {
+    //         $value = $array[$key];
+    //         unset($array[$key]);
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
     public static function get(string $path, array $array, mixed $default = null): mixed
     {

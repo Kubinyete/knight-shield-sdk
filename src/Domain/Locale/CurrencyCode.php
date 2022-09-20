@@ -30,6 +30,11 @@ class CurrencyCode implements Stringable
         }
     }
 
+    public static function brl(): static
+    {
+        return new static('BRL');
+    }
+
     public function __toString(): string
     {
         return $this->value;

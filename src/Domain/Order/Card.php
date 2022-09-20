@@ -32,7 +32,7 @@ class Card implements JsonSerializable
 
     protected function assertValidHolder(): void
     {
-        DomainException::assert(preg_match('/^[a-zA-Z0-9]+$/', $this->holder), "Card holder should be alphanumeric.");
+        DomainException::assert(preg_match('/^[a-zA-Z0-9 ]+$/', $this->holder), "Card holder should be alphanumeric.");
     }
 
     protected function assertValidNumber(): void
@@ -54,6 +54,11 @@ class Card implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'holder' => $this->holder,
+            'number' => $this->number,
+            'expiry_month' => $this->expiry_month,
+            'expiry_year' => $this->expiry_year,
+        ];
     }
 }

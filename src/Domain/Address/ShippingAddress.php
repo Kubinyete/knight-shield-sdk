@@ -1,6 +1,6 @@
 <?php
 
-namespace Kubinyete\KnightShieldSdk\Domain\Person;
+namespace Kubinyete\KnightShieldSdk\Domain\Address;
 
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;

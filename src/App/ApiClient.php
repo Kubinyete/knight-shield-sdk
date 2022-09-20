@@ -8,16 +8,16 @@ use Kubinyete\KnightShieldSdk\Domain\Order\Order;
 
 class ApiClient extends Client
 {
-    private const SUPPORTED_API_VERSION_LATEST = 1;
+    public const SUPPORTED_API_VERSION_LATEST = 1;
     private const SUPPORTED_API_VERSION_MAP = [
         '1' => 'v1',
     ];
 
     protected float $versionNumber;
 
-    public function __construct(ApiToken $token, ?float $version = self::SUPPORTED_API_VERSION_LATEST, float $timeout = self::DEFAULT_TIMEOUT_SECONDS)
+    public function __construct(ApiToken $token, ?float $version = self::SUPPORTED_API_VERSION_LATEST, float $timeout = self::DEFAULT_TIMEOUT_SECONDS, ?string $host = null, ?string $protocol = null, ?string $port = null)
     {
-        parent::__construct($token, $timeout);
+        parent::__construct($token, $timeout, $host, $protocol, $port);
         $this->setVersion(is_null($version) ? self::SUPPORTED_API_VERSION_LATEST : $version);
     }
 

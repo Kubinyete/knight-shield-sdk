@@ -27,7 +27,7 @@ class Customer implements JsonSerializable
         DateTime $birth_date,
         Email $email,
         MobilePhone $mobile_phone,
-        FixedLinePhone $phone,
+        ?FixedLinePhone $phone,
     ) {
         $this->full_name = $full_name;
         $this->document = $document;
@@ -45,6 +45,14 @@ class Customer implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'full_name' => $this->full_name,
+            'document' => $this->document->jsonSerialize(),
+            'gender' => $this->gender ? (string)$this->gender : null,
+            'birth_date' => $this->birth_date->format('Y-m-d'),
+            'email' => (string)$this->email,
+            'mobile_phone' => (string)$this->mobile_phone,
+            'phone' => $this->phone ? (string)$this->phone : null,
+        ];
     }
 }

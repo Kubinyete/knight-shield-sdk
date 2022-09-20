@@ -4,24 +4,25 @@ namespace Kubinyete\KnightShieldSdk\Domain\Order;
 
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CurrencyCode;
-use Kubinyete\KnightShieldSdk\Domain\Person\BillingAddress;
-use Kubinyete\KnightShieldSdk\Domain\Person\ShippingAddress;
+use Kubinyete\KnightShieldSdk\Domain\Address\BillingAddress;
+use Kubinyete\KnightShieldSdk\Domain\Address\ShippingAddress;
+use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class Order implements JsonSerializable
 {
-    protected ?string $merchant_order_id;
+    protected string $merchant_order_id;
     protected float $amount;
     protected CurrencyCode $currency;
     protected Customer $customer;
     protected BillingAddress $billing_address;
-    protected ShippingAddress $shipping_address;
+    protected ?ShippingAddress $shipping_address;
     protected Cart $cart;
     protected Factor $factors;
     protected array $payments = [];
     protected array $metadata = [];
 
     public function __construct(
-        ?string $merchant_order_id,
+        string $merchant_order_id,
         float $amount,
         CurrencyCode $currency,
         Customer $customer,
@@ -43,6 +44,13 @@ class Order implements JsonSerializable
         $this->addItems($items);
         $this->addPayments($payments);
         $this->metadata = $metadata;
+
+        $this->assertValidAmount();
+    }
+
+    protected function assertValidAmount(): void
+    {
+        DomainException::assert($this->amount > 0, "Amount should be greater than zero");
     }
 
     public function addItem(Item $item): void
@@ -69,6 +77,19 @@ class Order implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'merchant_order_id' => $this->merchant_order_id,
+            'amount' => $this->amount,
+            'currency' => (string)$this->currency,
+            'customer' => $this->customer->jsonSerialize(),
+            'billing_address' => $this->billing_address->jsonSerialize(),
+            'shipping_address' => $this->shipping_address ? $this->shipping_address->jsonSerialize() : null,
+            'cart' => $this->cart->jsonSerialize(),
+            'factors' => $this->factors->jsonSerialize(),
+            'payments' => array_map(function ($x) {
+                return $x->jsonSerialize();
+            }, $this->payments),
+            'metadata' => $this->metadata ? $this->metadata : null,
+        ];
     }
 }

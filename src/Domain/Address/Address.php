@@ -1,6 +1,6 @@
 <?php
 
-namespace Kubinyete\KnightShieldSdk\Domain\Person;
+namespace Kubinyete\KnightShieldSdk\Domain\Address;
 
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
@@ -79,6 +79,15 @@ abstract class Address implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'country' => (string)$this->country,
+            'state' => (string)$this->state,
+            'street' => $this->street,
+            'number' => $this->number,
+            'district' => $this->district,
+            'complement' => $this->complement,
+            'city' => $this->city,
+            'zipcode' => $this->zipcode,
+        ];
     }
 }

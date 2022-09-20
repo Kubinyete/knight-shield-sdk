@@ -1,6 +1,6 @@
 <?php
 
-namespace Kubinyete\KnightShieldSdk\Domain\Locale;
+namespace Kubinyete\KnightShieldSdk\Domain\Order;
 
 use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 use Stringable;
@@ -52,6 +52,77 @@ class PaymentMethod implements Stringable
     {
         DomainException::assert(in_array($this->value, self::ALLOWED), "Payment method '$this->value' is not supported, should be one of: " . implode(', ', self::ALLOWED));
     }
+
+    public static function visa(): static
+    {
+        return new static(self::VISA);
+    }
+
+    public static function mastercard(): static
+    {
+        return new static(self::MASTERCARD);
+    }
+
+    public static function elo(): static
+    {
+        return new static(self::ELO);
+    }
+
+    public static function amex(): static
+    {
+        return new static(self::AMEX);
+    }
+
+    public static function hipercard(): static
+    {
+        return new static(self::HIPERCARD);
+    }
+
+    public static function discover(): static
+    {
+        return new static(self::DISCOVER);
+    }
+
+    public static function aura(): static
+    {
+        return new static(self::AURA);
+    }
+
+    public static function diners(): static
+    {
+        return new static(self::DINERS);
+    }
+
+    public static function jcb(): static
+    {
+        return new static(self::JCB);
+    }
+
+    public static function visaelectron(): static
+    {
+        return new static(self::VISAELECTRON);
+    }
+
+    public static function maestro(): static
+    {
+        return new static(self::MAESTRO);
+    }
+
+    public static function elodebit(): static
+    {
+        return new static(self::ELODEBIT);
+    }
+
+    public static function pix(): static
+    {
+        return new static(self::PIX);
+    }
+
+    public static function billet(): static
+    {
+        return new static(self::BILLET);
+    }
+
 
     public function __toString(): string
     {

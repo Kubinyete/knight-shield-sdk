@@ -27,6 +27,10 @@ class Cart implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'items' => array_map(function ($x) {
+                return $x->jsonSerialize();
+            }, $this->items),
+        ];
     }
 }

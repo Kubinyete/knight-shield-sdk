@@ -21,15 +21,26 @@ abstract class Client
     protected const DEFAULT_PROTOCOL = 'https';
     protected const DEFAULT_PORT = 443;
 
-    protected const DEFAULT_TIMEOUT_SECONDS = 12;
+    public const DEFAULT_TIMEOUT_SECONDS = 12;
 
     protected ?Token $token;
     protected float $timeout;
 
+    protected string $host;
+    protected string $protocol;
+    protected string $port;
+
     public function __construct(
         ?Token $token,
         float $timeout,
+        ?string $host = null,
+        ?string $protocol = null,
+        ?string $port = null,
     ) {
+        $this->host = $host ?: self::DEFAULT_HOST;
+        $this->protocol = $protocol ?: self::DEFAULT_PROTOCOL;
+        $this->port = $port ?: self::DEFAULT_PORT;
+
         $this->setToken($token);
         $this->setTimeout($timeout);
     }
@@ -53,12 +64,8 @@ abstract class Client
 
     protected function path(string $relativePath = ''): string
     {
-        $protocol = self::DEFAULT_PROTOCOL;
-        $host = self::DEFAULT_HOST;
-        $port = self::DEFAULT_PORT;
-
         $relativePath = ltrim($relativePath, '/');
-        return "{$protocol}://{$host}:{$port}/{$relativePath}";
+        return "{$this->protocol}://{$this->host}:{$this->port}/{$relativePath}";
     }
 
     protected function request(string $method, string $path, array $query = [], array $headers = [], ?array $body = null): Response
@@ -69,7 +76,7 @@ abstract class Client
             'headers' => array_merge([
                 'User-Agent' => self::DEFAULT_USER_AGENT,
                 'Accept' => self::DEFAULT_EXPECTED_TYPE,
-                'Authorization' => 'Bearer ' . ($this->token ? $this->token->__toString() : ''),
+                'Authorization' => 'Bearer ' . ($this->token ? (string)$this->token : ''),
             ], $headers),
             'timeout' => $this->timeout,
             'allow_redirects' => false,

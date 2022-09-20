@@ -70,6 +70,13 @@ class Item implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'merchant_item_id' => $this->merchant_item_id,
+            'name' => $this->name,
+            'unit_price' => $this->unit_price,
+            'quantity' => $this->quantity,
+            'sku' => $this->sku,
+            'description' => $this->description,
+        ];
     }
 }

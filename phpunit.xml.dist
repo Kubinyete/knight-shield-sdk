@@ -26,8 +26,11 @@
     </coverage>
 
     <php>
-        <env name="USERNAME" value="PLATFORM_USERNAME"/>
-        <env name="PASSWORD" value="PLATFORM_PASSWORD"/>
-        <env name="API_TOKEN" value="MERCHANT_TOKEN_ID"/>
+        <env name="API_HOST" value=""/>
+        <env name="API_PROTOCOL" value=""/>
+        <env name="API_PORT" value=""/>
+        <env name="USERNAME" value=""/>
+        <env name="PASSWORD" value=""/>
+        <env name="API_TOKEN" value=""/>
     </php>
 </phpunit>

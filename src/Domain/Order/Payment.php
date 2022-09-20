@@ -3,7 +3,6 @@
 namespace Kubinyete\KnightShieldSdk\Domain\Order;
 
 use JsonSerializable;
-use Kubinyete\KnightShieldSdk\Domain\Locale\PaymentMethod;
 use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class Payment implements JsonSerializable
@@ -31,6 +30,10 @@ class Payment implements JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'method' => (string)$this->method,
+            'amount' => $this->amount,
+            'card' => $this->card ? $this->card->jsonSerialize() : null,
+        ];
     }
 }

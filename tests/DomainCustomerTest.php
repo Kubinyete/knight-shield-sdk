@@ -4,6 +4,7 @@ namespace Tests;
 
 use Kubinyete\KnightShieldSdk\App\ApiClient;
 use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
+use Kubinyete\KnightShieldSdk\Domain\Contact\FixedLinePhone;
 use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
 use Kubinyete\KnightShieldSdk\Domain\Person\Document;
@@ -78,6 +79,18 @@ class DomainCustomerTest extends TestCase
         $phone = new MobilePhone('123@123');
     }
 
+    public function testCannotCreateMobilePhoneWithoutAreaCode()
+    {
+        $this->expectException(DomainException::class);
+        $phone = new MobilePhone('998227323');
+    }
+
+    public function testCannotCreateFixedLinePhoneAsMobilePhone()
+    {
+        $this->expectException(DomainException::class);
+        $phone = new MobilePhone('+551833444400');
+    }
+
     public function testCanCreateValidMobilePhoneInternational()
     {
         $expectedPhoneString = '+5518998227323';
@@ -87,7 +100,7 @@ class DomainCustomerTest extends TestCase
 
     public function testCanCreateValidMobilePhoneInternationalWithoutSymbol()
     {
-        $phoneString = '+5518998227323';
+        $phoneString = '5518998227323';
         $expectedPhoneString = "+$phoneString";
 
         $phone = new MobilePhone($phoneString);
@@ -100,6 +113,51 @@ class DomainCustomerTest extends TestCase
         $expectedPhoneString = "+55$phoneString";
 
         $phone = new MobilePhone($phoneString);
+        $this->assertEquals($expectedPhoneString, (string)$phone);
+    }
+
+    //
+
+    public function testCannotCreateInvalidFixedLinePhone()
+    {
+        $this->expectException(DomainException::class);
+        $phone = new FixedLinePhone('123@123');
+    }
+
+    public function testCannotCreateFixedLinePhoneWithoutAreaCode()
+    {
+        $this->expectException(DomainException::class);
+        $phone = new FixedLinePhone('33444400');
+    }
+
+    public function testCannotCreateMobilePhoneAsFixedLinePhone()
+    {
+        $this->expectException(DomainException::class);
+        $phone = new FixedLinePhone('+5518998227323');
+    }
+
+    public function testCanCreateValidFixedLinePhoneInternational()
+    {
+        $expectedPhoneString = '+551833444400';
+        $phone = new FixedLinePhone($expectedPhoneString);
+        $this->assertEquals($expectedPhoneString, (string)$phone);
+    }
+
+    public function testCanCreateValidFixedLinePhoneInternationalWithoutSymbol()
+    {
+        $phoneString = '551833444400';
+        $expectedPhoneString = "+$phoneString";
+
+        $phone = new FixedLinePhone($phoneString);
+        $this->assertEquals($expectedPhoneString, (string)$phone);
+    }
+
+    public function testCanCreateValidFixedLinePhoneInternationalImplicit()
+    {
+        $phoneString = '1833444400';
+        $expectedPhoneString = "+55$phoneString";
+
+        $phone = new FixedLinePhone($phoneString);
         $this->assertEquals($expectedPhoneString, (string)$phone);
     }
 }

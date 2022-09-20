@@ -49,7 +49,11 @@ class Document implements JsonSerializable, Stringable
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            'nationality' => (string)$this->nationality,
+            'number' => $this->value,
+            'type' => (string)$this->type,
+        ];
     }
 
     public function __toString(): string
