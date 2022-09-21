@@ -1,5 +1,5 @@
 {
-    "name": "kubinyete/knight-shield-sdk",
+    "name": "kubinyete/knight-shield-sdk-php",
     "type": "library",
     "autoload": {
         "psr-4": {
