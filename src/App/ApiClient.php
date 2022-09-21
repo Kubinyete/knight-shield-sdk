@@ -68,9 +68,9 @@ class ApiClient extends Client
 
     //
 
-    public function getOrder(mixed $id): Response
+    public function getOrder(mixed $id, bool $asMerchantOrderId = false): Response
     {
-        return $this->request('GET', "/orders/{$id}");
+        return $this->request('GET', "/orders/{$id}", ['as_merchant_order_id' => $asMerchantOrderId]);
     }
 
     public function getOrders(array $filters = []): Response

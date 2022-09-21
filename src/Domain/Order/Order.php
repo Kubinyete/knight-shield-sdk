@@ -46,11 +46,17 @@ class Order implements JsonSerializable
         $this->metadata = $metadata;
 
         $this->assertValidAmount();
+        $this->assertValidMerchantOrderId();
     }
 
     protected function assertValidAmount(): void
     {
         DomainException::assert($this->amount > 0, "Amount should be greater than zero");
+    }
+
+    protected function assertValidMerchantOrderId(): void
+    {
+        DomainException::assert(preg_match('/^[0-9a-zA-Z_-]{1,255}$/', $this->merchant_order_id), "Merchant Order ID should not be omitted or exceed maximum legth");
     }
 
     public function addItem(Item $item): void
