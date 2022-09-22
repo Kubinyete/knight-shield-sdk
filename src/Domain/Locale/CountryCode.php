@@ -37,7 +37,7 @@ class CountryCode implements Stringable
 
     //
 
-    public static function br(): static
+    public static function br(): self
     {
         return new static('BR');
     }

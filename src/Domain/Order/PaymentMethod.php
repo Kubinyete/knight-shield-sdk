@@ -42,7 +42,7 @@ class PaymentMethod implements Stringable
     ];
 
     public function __construct(
-        string $value,
+        string $value
     ) {
         $this->value = $value;
         $this->assertValueIsCorrect();
@@ -53,72 +53,72 @@ class PaymentMethod implements Stringable
         DomainException::assert(in_array($this->value, self::ALLOWED), "Payment method '$this->value' is not supported, should be one of: " . implode(', ', self::ALLOWED));
     }
 
-    public static function visa(): static
+    public static function visa(): self
     {
         return new static(self::VISA);
     }
 
-    public static function mastercard(): static
+    public static function mastercard(): self
     {
         return new static(self::MASTERCARD);
     }
 
-    public static function elo(): static
+    public static function elo(): self
     {
         return new static(self::ELO);
     }
 
-    public static function amex(): static
+    public static function amex(): self
     {
         return new static(self::AMEX);
     }
 
-    public static function hipercard(): static
+    public static function hipercard(): self
     {
         return new static(self::HIPERCARD);
     }
 
-    public static function discover(): static
+    public static function discover(): self
     {
         return new static(self::DISCOVER);
     }
 
-    public static function aura(): static
+    public static function aura(): self
     {
         return new static(self::AURA);
     }
 
-    public static function diners(): static
+    public static function diners(): self
     {
         return new static(self::DINERS);
     }
 
-    public static function jcb(): static
+    public static function jcb(): self
     {
         return new static(self::JCB);
     }
 
-    public static function visaelectron(): static
+    public static function visaelectron(): self
     {
         return new static(self::VISAELECTRON);
     }
 
-    public static function maestro(): static
+    public static function maestro(): self
     {
         return new static(self::MAESTRO);
     }
 
-    public static function elodebit(): static
+    public static function elodebit(): self
     {
         return new static(self::ELODEBIT);
     }
 
-    public static function pix(): static
+    public static function pix(): self
     {
         return new static(self::PIX);
     }
 
-    public static function billet(): static
+    public static function billet(): self
     {
         return new static(self::BILLET);
     }

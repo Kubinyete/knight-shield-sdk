@@ -27,17 +27,17 @@ class DocumentType implements Stringable
         DomainException::assert(in_array($this->value, self::ALLOWED, true), "Document type can only be one of: " . implode(', ', self::ALLOWED));
     }
 
-    public static function taxId(): static
+    public static function taxId(): self
     {
         return new static(self::TAX_ID);
     }
 
-    public static function idCard(): static
+    public static function idCard(): self
     {
         return new static(self::ID_CARD);
     }
 
-    public static function passport(): static
+    public static function passport(): self
     {
         return new static(self::PASSPORT);
     }

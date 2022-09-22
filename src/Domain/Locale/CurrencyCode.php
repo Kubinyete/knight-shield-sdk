@@ -30,7 +30,7 @@ class CurrencyCode implements Stringable
         }
     }
 
-    public static function brl(): static
+    public static function brl(): self
     {
         return new static('BRL');
     }

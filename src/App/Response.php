@@ -16,7 +16,7 @@ class Response implements JsonSerializable
         $this->body = $body;
     }
 
-    public static function createFrom(mixed $body): static
+    public static function createFrom(mixed $body): self
     {
         if (!is_array($body)) {
             $body = json_decode(strval($body), true);

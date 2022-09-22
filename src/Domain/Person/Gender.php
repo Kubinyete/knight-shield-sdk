@@ -20,12 +20,12 @@ class Gender implements Stringable
         $this->assertValueIsCorrect();
     }
 
-    public static function masculine(): static
+    public static function masculine(): self
     {
         return new static(self::MASCULINE);
     }
 
-    public static function feminine(): static
+    public static function feminine(): self
     {
         return new static(self::FEMININE);
     }
