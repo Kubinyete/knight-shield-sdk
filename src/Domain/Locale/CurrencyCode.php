@@ -25,7 +25,7 @@ class CurrencyCode implements Stringable
 
         try {
             $info = $iso->getByAlpha3($this->value);
-        } catch (GlobalDomainException) {
+        } catch (GlobalDomainException $e) {
             DomainException::assert(false, "The currency code $this->value is not an valid alpha 3 code.");
         }
     }
