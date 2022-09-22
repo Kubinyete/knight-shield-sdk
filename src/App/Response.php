@@ -16,7 +16,7 @@ class Response implements JsonSerializable
         $this->body = $body;
     }
 
-    public static function createFrom(mixed $body): self
+    public static function createFrom($body): self
     {
         if (!is_array($body)) {
             $body = json_decode(strval($body), true);
@@ -33,27 +33,27 @@ class Response implements JsonSerializable
         return $this->body;
     }
 
-    public function getStatus(): int
+    public function getStatus()
     {
         return $this->getPath('status');
     }
 
-    public function getMessage(): int
+    public function getMessage()
     {
         return $this->getPath('message');
     }
 
-    public function getResponse(): mixed
+    public function getResponse()
     {
         return $this->getPath('response');
     }
 
-    public function getPath(string $path): mixed
+    public function getPath(string $path)
     {
         return ArrayUtil::get($path, $this->body);
     }
 
-    public function getResponsePath(string $path): mixed
+    public function getResponsePath(string $path)
     {
         return ArrayUtil::get($path, $this->getResponse());
     }

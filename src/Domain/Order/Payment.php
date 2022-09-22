@@ -28,7 +28,7 @@ class Payment implements JsonSerializable
         DomainException::assert($this->amount >= 0, "Payment amound should be greater or equal to zero.");
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return [
             'method' => (string)$this->method,

@@ -84,7 +84,7 @@ abstract class Address implements JsonSerializable
         DomainException::assert(preg_match('/^[0-9]+$/', $this->zipcode), "Zipcode should contain only digits.");
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return [
             'country' => (string)$this->country,

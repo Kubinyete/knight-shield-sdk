@@ -54,7 +54,7 @@ class Card implements JsonSerializable
         DomainException::assert(($n = abs(intval($this->expiry_year))) && $n >= 1900, "Card expiry year should be valid.");
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return [
             'holder' => $this->holder,

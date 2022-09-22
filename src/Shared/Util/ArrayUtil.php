@@ -6,19 +6,7 @@ abstract class ArrayUtil
 {
     public const SEPARATOR = '.';
 
-    // public static function popKey(string $key, array &$array, mixed $default = null): mixed
-    // {
-    //     $value = $default;
-
-    //     if (isset($array[$key])) {
-    //         $value = $array[$key];
-    //         unset($array[$key]);
-    //     }
-
-    //     return $value;
-    // }
-
-    public static function get(string $path, array $array, mixed $default = null): mixed
+    public static function get(string $path, array $array, $default = null)
     {
         $splitPath = explode(self::SEPARATOR, $path);
 

@@ -81,7 +81,7 @@ class Order implements JsonSerializable
         }
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return [
             'merchant_order_id' => $this->merchant_order_id,

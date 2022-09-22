@@ -61,7 +61,7 @@ class Customer implements JsonSerializable
         return $this->full_name;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return [
             'full_name' => $this->full_name,
