@@ -35,7 +35,7 @@ abstract class Client
         float $timeout,
         ?string $host = null,
         ?string $protocol = null,
-        ?string $port = null,
+        ?string $port = null
     ) {
         $this->host = $host ?: self::DEFAULT_HOST;
         $this->protocol = $protocol ?: self::DEFAULT_PROTOCOL;

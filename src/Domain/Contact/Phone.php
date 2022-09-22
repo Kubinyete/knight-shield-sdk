@@ -16,7 +16,7 @@ class Phone implements Stringable
     protected string $value;
 
     public function __construct(
-        string $value,
+        string $value
     ) {
         $this->value = $this->assertValueIsCorrect($value);
     }

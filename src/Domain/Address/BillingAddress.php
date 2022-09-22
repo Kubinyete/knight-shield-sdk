@@ -18,7 +18,7 @@ class BillingAddress extends Address
         string $district,
         ?string $complement,
         string $city,
-        string $zipcode,
+        string $zipcode
     ) {
         parent::__construct($country, $state, $street, $number, $district, $complement, $city, $zipcode);
     }

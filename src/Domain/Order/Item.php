@@ -20,7 +20,7 @@ class Item implements JsonSerializable
         float $unit_price,
         int $quantity,
         string $sku,
-        ?string $description,
+        ?string $description
     ) {
         $this->merchant_item_id = $merchant_item_id;
         $this->name = $name;

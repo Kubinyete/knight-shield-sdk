@@ -29,7 +29,7 @@ class Customer implements JsonSerializable
         DateTime $birth_date,
         Email $email,
         MobilePhone $mobile_phone,
-        ?FixedLinePhone $phone,
+        ?FixedLinePhone $phone
     ) {
         $this->full_name = $full_name;
         $this->document = $document;

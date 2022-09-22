@@ -18,7 +18,7 @@ class Card implements JsonSerializable
         string $holder,
         string $number,
         string $expiry_month,
-        string $expiry_year,
+        string $expiry_year
     ) {
         $this->holder = $holder;
         $this->number = $number;

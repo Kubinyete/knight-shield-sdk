@@ -16,7 +16,7 @@ class Factor implements JsonSerializable
         string $with_ip_address,
         ?string $with_fingerprint = null,
         bool $is_vip_customer = false,
-        int $days_since_first_purchase = 0,
+        int $days_since_first_purchase = 0
     ) {
         $this->with_ip_address = $with_ip_address;
         $this->with_fingerprint = $with_fingerprint;

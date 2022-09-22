@@ -27,7 +27,7 @@ class ShippingAddress extends Address
         ?float $shipping_cost,
         ?string $shipping_tracking_number,
         ?string $shipping_comment,
-        ?string $shipping_provider,
+        ?string $shipping_provider
     ) {
         parent::__construct($country, $state, $street, $number, $district, $complement, $city, $zipcode);
 

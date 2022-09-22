@@ -11,7 +11,7 @@ class Response implements JsonSerializable
     protected array $body;
 
     protected function __construct(
-        array $body,
+        array $body
     ) {
         $this->body = $body;
     }

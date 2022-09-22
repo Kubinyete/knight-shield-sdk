@@ -27,7 +27,7 @@ abstract class Address implements JsonSerializable
         string $district,
         ?string $complement,
         string $city,
-        string $zipcode,
+        string $zipcode
     ) {
         $this->country = $country;
         $this->state = $state;

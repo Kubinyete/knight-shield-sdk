@@ -14,7 +14,7 @@ class Payment implements JsonSerializable
     public function __construct(
         PaymentMethod $method,
         float $amount,
-        ?Card $card,
+        ?Card $card
     ) {
         $this->method = $method;
         $this->amount = $amount;
