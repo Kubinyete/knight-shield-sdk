@@ -3,12 +3,9 @@
 namespace Kubinyete\KnightShieldSdk\App\Exception;
 
 use Kubinyete\KnightShieldSdk\App\Response;
-use Kubinyete\KnightShieldSdk\Shared\Trait\CanAssert;
 
 class ResponseAppException extends ResponseException
 {
-    use CanAssert;
-
     public int $statusCode;
     public Response $response;
 

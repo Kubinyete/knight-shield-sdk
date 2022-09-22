@@ -2,8 +2,10 @@
 
 namespace Kubinyete\KnightShieldSdk\Shared\Exception;
 
-use Kubinyete\KnightShieldSdk\Shared\Trait\CanAssert;
-
 abstract class Exception extends \Exception
 {
+    public static function assert(mixed $condition, ?string $message = null): void
+    {
+        if (!$condition) throw new static($message);
+    }
 }
