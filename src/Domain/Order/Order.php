@@ -20,6 +20,7 @@ class Order implements JsonSerializable
     protected Factor $factors;
     protected array $payments = [];
     protected array $metadata = [];
+    protected OrderStatus $status;
 
     public function __construct(
         string $merchant_order_id,
@@ -31,7 +32,7 @@ class Order implements JsonSerializable
         Factor $factors,
         array $items = [],
         array $payments = [],
-        array $metadata = []
+        array $metadata = [],
     ) {
         $this->merchant_order_id = $merchant_order_id;
         $this->amount = $amount;
@@ -44,6 +45,7 @@ class Order implements JsonSerializable
         $this->addItems($items);
         $this->addPayments($payments);
         $this->metadata = $metadata;
+        $this->status = OrderStatus::neutral();
 
         $this->assertValidAmount();
         $this->assertValidMerchantOrderId();
@@ -81,12 +83,18 @@ class Order implements JsonSerializable
         }
     }
 
+    public function setStatus(OrderStatus $status): void
+    {
+        $this->status = $status;
+    }
+
     public function jsonSerialize()
     {
         return [
             'merchant_order_id' => $this->merchant_order_id,
             'amount' => $this->amount,
             'currency' => (string)$this->currency,
+            'status' => (string)$this->status,
             'customer' => $this->customer->jsonSerialize(),
             'billing_address' => $this->billing_address->jsonSerialize(),
             'shipping_address' => $this->shipping_address ? $this->shipping_address->jsonSerialize() : null,
