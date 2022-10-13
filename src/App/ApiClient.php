@@ -5,6 +5,7 @@ namespace Kubinyete\KnightShieldSdk\App;
 use Kubinyete\KnightShieldSdk\App\Exception\UnsupportedApiVersionException;
 use Kubinyete\KnightShieldSdk\Domain\Auth\ApiToken;
 use Kubinyete\KnightShieldSdk\Domain\Order\Order;
+use Kubinyete\KnightShieldSdk\Domain\Order\OrderStatus;
 
 class ApiClient extends Client
 {
@@ -86,5 +87,10 @@ class ApiClient extends Client
     public function createOrder(Order $order): Response
     {
         return $this->request('POST', "/orders", [], [], $order->jsonSerialize());
+    }
+
+    public function updateOrderStatus(string $id, OrderStatus $status, bool $asMerchantOrderId = false): Response
+    {
+        return $this->request('PATCH', "/orders/{$id}", ['as_merchant_order_id' => $asMerchantOrderId], [], $status->jsonSerialize());
     }
 }
