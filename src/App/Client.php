@@ -83,7 +83,7 @@ abstract class Client
         ]);
 
         try {
-            $response = $requestClient->request($method, $path, ['json' => $body]);
+            $response = $requestClient->request($method, $path, ['json' => $body, 'query' => $query]);
             return $this->translateResponse($response);
         } catch (ClientException $e) {
             return $this->translateResponse($e->getResponse());
