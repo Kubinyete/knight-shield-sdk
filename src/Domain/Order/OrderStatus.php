@@ -66,7 +66,7 @@ class OrderStatus implements Stringable, JsonSerializable
         return $this->value;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         return [
             'status' => (string)$this
