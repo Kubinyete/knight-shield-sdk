@@ -32,7 +32,7 @@ class Order implements JsonSerializable
         Factor $factors,
         array $items = [],
         array $payments = [],
-        array $metadata = [],
+        array $metadata = []
     ) {
         $this->merchant_order_id = $merchant_order_id;
         $this->amount = $amount;
