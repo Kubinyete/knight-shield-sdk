@@ -12,6 +12,7 @@ class Order implements JsonSerializable
 {
     protected string $merchant_order_id;
     protected float $amount;
+    protected int $installments;
     protected CurrencyCode $currency;
     protected Customer $customer;
     protected BillingAddress $billing_address;
@@ -25,6 +26,7 @@ class Order implements JsonSerializable
     public function __construct(
         string $merchant_order_id,
         float $amount,
+        int $installments,
         CurrencyCode $currency,
         Customer $customer,
         BillingAddress $billing_address,
@@ -36,6 +38,7 @@ class Order implements JsonSerializable
     ) {
         $this->merchant_order_id = $merchant_order_id;
         $this->amount = $amount;
+        $this->installments = $installments;
         $this->currency = $currency;
         $this->customer = $customer;
         $this->billing_address = $billing_address;
@@ -48,12 +51,18 @@ class Order implements JsonSerializable
         $this->status = OrderStatus::neutral();
 
         $this->assertValidAmount();
+        $this->assertValidInstallments();
         $this->assertValidMerchantOrderId();
     }
 
     protected function assertValidAmount(): void
     {
         DomainException::assert($this->amount > 0, "Amount should be greater than zero");
+    }
+
+    protected function assertValidInstallments(): void
+    {
+        DomainException::assert($this->installments >= 1 && $this->installments <= 48, "Installments value should be between 1 and 48");
     }
 
     protected function assertValidMerchantOrderId(): void
@@ -93,6 +102,7 @@ class Order implements JsonSerializable
         return [
             'merchant_order_id' => $this->merchant_order_id,
             'amount' => $this->amount,
+            'installments' => $this->installments,
             'currency' => (string)$this->currency,
             'status' => (string)$this->status,
             'customer' => $this->customer->jsonSerialize(),

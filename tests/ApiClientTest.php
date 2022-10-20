@@ -53,6 +53,7 @@ class ApiClientTest extends TestCase
         $order = new Order(
             $id,
             30,
+            1,
             CurrencyCode::brl(),
             new Customer(
                 'Vitor Kubinyete',

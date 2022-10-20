@@ -34,6 +34,7 @@ class DomainOrderTest extends TestCase
         $order = new Order(
             time(),
             -100,
+            1,
             CurrencyCode::brl(),
             new Customer(
                 'Vitor Kubinyete',
@@ -65,6 +66,7 @@ class DomainOrderTest extends TestCase
         $order = new Order(
             time(),
             0,
+            1,
             CurrencyCode::brl(),
             new Customer(
                 'Vitor Kubinyete',
@@ -96,6 +98,7 @@ class DomainOrderTest extends TestCase
         $order = new Order(
             $id,
             30,
+            1,
             CurrencyCode::brl(),
             new Customer(
                 'Vitor Kubinyete',
