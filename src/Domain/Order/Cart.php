@@ -10,6 +10,7 @@ class Cart implements JsonSerializable
 
     public function __construct(array $items = [])
     {
+        $this->items = [];
         $this->addItems($items);
     }
 
