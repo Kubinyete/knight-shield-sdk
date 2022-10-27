@@ -67,7 +67,7 @@ class Order implements JsonSerializable
 
     protected function assertValidMerchantOrderId(): void
     {
-        DomainException::assert(preg_match('/^[0-9a-zA-Z_-]{1,255}$/', $this->merchant_order_id), "Merchant Order ID should not be omitted or exceed maximum legth");
+        DomainException::assert(preg_match('/^[0-9a-zA-Z_-]{1,255}$/', $this->merchant_order_id), "Merchant Order ID should not be omitted or exceed maximum length");
     }
 
     public function addItem(Item $item): void

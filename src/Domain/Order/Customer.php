@@ -14,6 +14,7 @@ use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class Customer implements JsonSerializable
 {
+    protected ?string $merchant_customer_id;
     protected string $full_name;
     protected Document $document;
     protected ?Gender $gender;
@@ -23,6 +24,7 @@ class Customer implements JsonSerializable
     protected ?FixedLinePhone $phone;
 
     public function __construct(
+        ?string $merchant_customer_id,
         string $full_name,
         Document $document,
         Gender $gender,
@@ -31,7 +33,8 @@ class Customer implements JsonSerializable
         MobilePhone $mobile_phone,
         ?FixedLinePhone $phone
     ) {
-        $this->full_name = $full_name;
+        $this->merchant_customer_id = $merchant_customer_id ? substr(trim($merchant_customer_id), 0, 256) : $merchant_customer_id;
+        $this->full_name = substr(trim($full_name), 0, 128);
         $this->document = $document;
         $this->gender = $gender;
         $this->birth_date = $birth_date;
@@ -39,8 +42,14 @@ class Customer implements JsonSerializable
         $this->mobile_phone = $mobile_phone;
         $this->phone = $phone;
 
+        $this->assertValidMerchantCustomerId();
         $this->assertValidFullname();
         $this->assertValidBirthdate();
+    }
+
+    protected function assertValidMerchantCustomerId(): void
+    {
+        DomainException::assert(is_null($this->merchant_customer_id) || preg_match('/^[0-9a-zA-Z_-]{1,255}$/', $this->merchant_customer_id), "Merchant Customer ID not exceed maximum length");
     }
 
     protected function assertValidFullname(): void
@@ -64,6 +73,7 @@ class Customer implements JsonSerializable
     public function jsonSerialize()
     {
         return [
+            'merchant_customer_id' => $this->merchant_customer_id,
             'full_name' => $this->full_name,
             'document' => $this->document->jsonSerialize(),
             'gender' => $this->gender ? (string)$this->gender : null,

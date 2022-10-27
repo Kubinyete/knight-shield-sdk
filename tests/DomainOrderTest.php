@@ -37,6 +37,7 @@ class DomainOrderTest extends TestCase
             1,
             CurrencyCode::brl(),
             new Customer(
+                null,
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),
@@ -69,6 +70,7 @@ class DomainOrderTest extends TestCase
             1,
             CurrencyCode::brl(),
             new Customer(
+                null,
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),
@@ -101,6 +103,7 @@ class DomainOrderTest extends TestCase
             1,
             CurrencyCode::brl(),
             new Customer(
+                null,
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),
@@ -125,7 +128,10 @@ class DomainOrderTest extends TestCase
             "merchant_order_id" => "$id",
             "amount" => 30.0,
             "currency" => "BRL",
+            "installments" => 1,
+            "status" => "N",
             "customer" => [
+                "merchant_customer_id" => null,
                 "full_name" => "Vitor Kubinyete",
                 "document" => [
                     "nationality" => "BR",

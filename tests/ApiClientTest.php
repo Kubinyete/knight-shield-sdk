@@ -56,6 +56,7 @@ class ApiClientTest extends TestCase
             1,
             CurrencyCode::brl(),
             new Customer(
+                null,
                 'Vitor Kubinyete',
                 new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
                 Gender::masculine(),

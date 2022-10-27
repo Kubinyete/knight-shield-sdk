@@ -170,6 +170,7 @@ class DomainCustomerTest extends TestCase
     {
         $this->expectException(DomainException::class);
         $customer = new Customer(
+            null,
             'Vitor Kubinyete',
             new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
             Gender::masculine(),
@@ -183,6 +184,7 @@ class DomainCustomerTest extends TestCase
     public function testCustomerAgeShouldBeLegal()
     {
         $customer = new Customer(
+            null,
             'Vitor Kubinyete',
             new Document(CountryCode::br(), '863.722.120-30', DocumentType::taxId()),
             Gender::masculine(),

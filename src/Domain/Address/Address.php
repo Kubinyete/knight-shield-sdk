@@ -31,12 +31,12 @@ abstract class Address implements JsonSerializable
     ) {
         $this->country = $country;
         $this->state = $state;
-        $this->street = $street;
-        $this->number = $number;
-        $this->district = $district;
-        $this->complement = $complement;
-        $this->city = $city;
-        $this->zipcode = $zipcode;
+        $this->street = substr(trim($street), 0, 128);
+        $this->number = substr(trim($number), 0, 16);
+        $this->district = substr(trim($district), 0, 64);
+        $this->complement = $complement ? substr(trim($complement), 0, 64) : $complement;
+        $this->city = substr(trim($city), 0, 64);
+        $this->zipcode = preg_replace('/[^0-9]/', '', $zipcode);
 
         $this->assertValidStreet();
         $this->assertValidNumber();
@@ -56,7 +56,7 @@ abstract class Address implements JsonSerializable
     {
         $len = strlen($this->number);
         DomainException::assert($len > 0 && $len <= 16, "Address number should not be omitted or exceed max length.");
-        DomainException::assert(preg_match('/^[a-zA-Z0-9]+$/', $this->number), "Address number should be alphanumeric.");
+        DomainException::assert(preg_match('/^[a-zA-Z0-9 ]+$/', $this->number), "Address number should be alphanumeric.");
     }
 
     protected function assertValidDistrict(): void

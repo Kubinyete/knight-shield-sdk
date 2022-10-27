@@ -18,7 +18,7 @@ class Factor implements JsonSerializable
         bool $is_vip_customer = false,
         int $days_since_first_purchase = 0
     ) {
-        $this->with_ip_address = $with_ip_address;
+        $this->with_ip_address = substr(trim($with_ip_address), 0, 64);
         $this->with_fingerprint = $with_fingerprint;
         $this->is_vip_customer = boolval($is_vip_customer);
         $this->days_since_first_purchase = is_null($days_since_first_purchase) ? 0 : abs($days_since_first_purchase);
