@@ -6,7 +6,7 @@ use Kubinyete\KnightShieldSdk\Domain\Auth\PlatformToken;
 
 class PlatformClient extends Client
 {
-    public function __construct(PlatformToken $token, float $timeout = self::DEFAULT_TIMEOUT_SECONDS, ?string $host = null, ?string $protocol = null, ?string $port = null)
+    public function __construct(?PlatformToken $token = null, float $timeout = self::DEFAULT_TIMEOUT_SECONDS, ?string $host = null, ?string $protocol = null, ?string $port = null)
     {
         parent::__construct($token, $timeout, $host, $protocol, $port);
     }
@@ -26,9 +26,9 @@ class PlatformClient extends Client
         return $this->request('GET', '/');
     }
 
-    public function authenticate(string $username, string $password): Response
+    public function authenticate(string $username, string $password): PlatformToken
     {
-        return $this->request('POST', '/authenticate', [], [], compact('username', 'password'));
+        return new PlatformToken($this->request('POST', '/authenticate', [], [], compact('username', 'password'))->getResponsePath('access_token'));
     }
 
     public function me(): Response
