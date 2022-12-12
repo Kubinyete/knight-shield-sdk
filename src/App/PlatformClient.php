@@ -90,7 +90,7 @@ class PlatformClient extends Client
     }
 
     /**
-     * @NOTE: Merchant Tokens
+     * @NOTE: Merchant Methods
      */
 
     public function getMerchantMethods(int $id, int $page = 1, array $filters = []): Response
