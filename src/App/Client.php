@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use ValueError;
 use GuzzleHttp\Client as GuzzleClient;
+use Kubinyete\KnightShieldSdk\App\Exception\ResponseErrorException;
 
 abstract class Client
 {
@@ -86,7 +87,7 @@ abstract class Client
             $response = $requestClient->request($method, $path, ['json' => $body, 'query' => $query]);
             return $this->translateResponse($response);
         } catch (ClientException $e) {
-            return $this->translateResponse($e->getResponse());
+            throw new ResponseErrorException($this->translateResponse($e->getResponse()));
         } catch (GuzzleException $e) {
             ResponseRuntimeException::assert(false, "Failure while request endpoint [$path]: " . $e->getMessage());
         } catch (RuntimeException $e) {
