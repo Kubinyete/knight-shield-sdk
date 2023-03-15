@@ -18,19 +18,19 @@ class Customer implements JsonSerializable
     protected string $full_name;
     protected Document $document;
     protected ?Gender $gender;
-    protected DateTime $birth_date;
+    protected ?DateTime $birth_date;
     protected Email $email;
-    protected MobilePhone $mobile_phone;
+    protected ?MobilePhone $mobile_phone;
     protected ?FixedLinePhone $phone;
 
     public function __construct(
         ?string $merchant_customer_id,
         string $full_name,
         Document $document,
-        Gender $gender,
-        DateTime $birth_date,
+        ?Gender $gender,
+        ?DateTime $birth_date,
         Email $email,
-        MobilePhone $mobile_phone,
+        ?MobilePhone $mobile_phone,
         ?FixedLinePhone $phone
     ) {
         $this->merchant_customer_id = $merchant_customer_id ? substr(trim($merchant_customer_id), 0, 256) : $merchant_customer_id;
@@ -60,6 +60,8 @@ class Customer implements JsonSerializable
 
     protected function assertValidBirthdate(): void
     {
+        if (!$this->birth_date) return;
+
         $now = new DateTime();
         $diff = $now->diff($this->birth_date);
         DomainException::assert($diff->y >= 12, "Birth date doesn't make sense and cannot be accepted.");
@@ -77,9 +79,9 @@ class Customer implements JsonSerializable
             'full_name' => $this->full_name,
             'document' => $this->document->jsonSerialize(),
             'gender' => $this->gender ? (string)$this->gender : null,
-            'birth_date' => $this->birth_date->format('Y-m-d'),
+            'birth_date' => $this->birth_date ? $this->birth_date->format('Y-m-d') : null,
             'email' => (string)$this->email,
-            'mobile_phone' => (string)$this->mobile_phone,
+            'mobile_phone' => $this->mobile_phone ? (string)$this->mobile_phone : null,
             'phone' => $this->phone ? (string)$this->phone : null,
         ];
     }
