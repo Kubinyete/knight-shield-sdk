@@ -12,22 +12,22 @@ abstract class Address implements JsonSerializable
 {
     protected CountryCode $country;
     protected StateCode $state;
-    protected string $street;
-    protected string $number;
-    protected string $district;
+    protected ?string $street;
+    protected ?string $number;
+    protected ?string $district;
     protected ?string $complement;
-    protected string $city;
-    protected string $zipcode;
+    protected ?string $city;
+    protected ?string $zipcode;
 
     public function __construct(
         CountryCode $country,
         StateCode $state,
-        string $street,
-        string $number,
-        string $district,
+        ?string $street,
+        ?string $number,
+        ?string $district,
         ?string $complement,
-        string $city,
-        string $zipcode
+        ?string $city,
+        ?string $zipcode
     ) {
         $this->country = $country;
         $this->state = $state;
@@ -37,51 +37,6 @@ abstract class Address implements JsonSerializable
         $this->complement = $complement ? substr(trim($complement), 0, 64) : $complement;
         $this->city = substr(trim($city), 0, 64);
         $this->zipcode = preg_replace('/[^0-9]/', '', $zipcode);
-
-        $this->assertValidStreet();
-        $this->assertValidNumber();
-        $this->assertValidDistrict();
-        $this->assertValidComplement();
-        $this->assertValidCity();
-        $this->assertValidZipcode();
-    }
-
-    protected function assertValidStreet(): void
-    {
-        $len = strlen($this->street);
-        DomainException::assert($len > 0 && $len <= 128, "Street name should not be omitted or exceed max length.");
-    }
-
-    protected function assertValidNumber(): void
-    {
-        $len = strlen($this->number);
-        DomainException::assert($len > 0 && $len <= 16, "Address number should not be omitted or exceed max length.");
-        DomainException::assert(preg_match('/^[a-zA-Z0-9 ]+$/', $this->number), "Address number should be alphanumeric.");
-    }
-
-    protected function assertValidDistrict(): void
-    {
-        $len = strlen($this->district);
-        DomainException::assert($len > 0 && $len <= 64, "District name should not be omitted or exceed max length.");
-    }
-
-    protected function assertValidComplement(): void
-    {
-        $len = strlen($this->complement);
-        DomainException::assert(is_null($this->complement) || $len > 0 && $len <= 64, "Address complement should not be omitted or exceed max length.");
-    }
-
-    protected function assertValidCity(): void
-    {
-        $len = strlen($this->city);
-        DomainException::assert($len > 0 && $len <= 64, "City name should not be omitted or exceed max length.");
-    }
-
-    protected function assertValidZipcode(): void
-    {
-        $len = strlen($this->zipcode);
-        DomainException::assert($len == 8, "Zipcode should not be omitted and must have 8 digits.");
-        DomainException::assert(preg_match('/^[0-9]+$/', $this->zipcode), "Zipcode should contain only digits.");
     }
 
     public function jsonSerialize()

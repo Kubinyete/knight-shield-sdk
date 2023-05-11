@@ -13,12 +13,12 @@ class BillingAddress extends Address
     public function __construct(
         CountryCode $country,
         StateCode $state,
-        string $street,
-        string $number,
-        string $district,
+        ?string $street,
+        ?string $number,
+        ?string $district,
         ?string $complement,
-        string $city,
-        string $zipcode
+        ?string $city,
+        ?string $zipcode
     ) {
         parent::__construct($country, $state, $street, $number, $district, $complement, $city, $zipcode);
     }
