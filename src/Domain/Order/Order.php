@@ -13,6 +13,7 @@ class Order implements JsonSerializable
     protected string $merchant_order_id;
     protected float $amount;
     protected int $installments;
+    protected bool $is_recurring;
     protected CurrencyCode $currency;
     protected Customer $customer;
     protected BillingAddress $billing_address;
@@ -34,11 +35,13 @@ class Order implements JsonSerializable
         Factor $factors,
         array $items = [],
         array $payments = [],
-        array $metadata = []
+        array $metadata = [],
+        bool $is_recurring = false
     ) {
         $this->merchant_order_id = $merchant_order_id;
         $this->amount = $amount;
         $this->installments = $installments;
+        $this->is_recurring = $is_recurring;
         $this->currency = $currency;
         $this->customer = $customer;
         $this->billing_address = $billing_address;
@@ -52,7 +55,7 @@ class Order implements JsonSerializable
 
         $this->assertValidAmount();
         $this->assertValidInstallments();
-        $this->assertValidMerchantOrderId();
+        // $this->assertValidMerchantOrderId();
     }
 
     protected function assertValidAmount(): void
@@ -103,6 +106,7 @@ class Order implements JsonSerializable
             'merchant_order_id' => $this->merchant_order_id,
             'amount' => $this->amount,
             'installments' => $this->installments,
+            'is_recurring' => $this->is_recurring,
             'currency' => (string)$this->currency,
             'status' => (string)$this->status,
             'customer' => $this->customer->jsonSerialize(),

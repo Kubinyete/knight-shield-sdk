@@ -41,6 +41,6 @@ class ShippingAddress extends Address
 
     protected function assertValidShippingCost(): void
     {
-        DomainException::assert(is_null($this->shipping_cost) || $this->shipping_cost >= 0, "Shipping cost can be null or greater than 0.");
+        DomainException::assert(is_null($this->shipping_cost) || $this->shipping_cost >= 0, "Shipping cost can be null or greater or equal to 0.");
     }
 }

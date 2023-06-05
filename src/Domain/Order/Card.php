@@ -25,7 +25,7 @@ class Card implements JsonSerializable
         $this->expiry_month = substr(trim($expiry_month), 0, 2);
         $this->expiry_year = substr(trim($expiry_year), 0, 4);
 
-        $this->assertValidHolder();
+        // $this->assertValidHolder();
         $this->assertValidNumber();
         $this->assertValidExpiryMonth();
         $this->assertValidExpiryYear();
@@ -38,8 +38,8 @@ class Card implements JsonSerializable
 
     protected function assertValidNumber(): void
     {
-        DomainException::assert(preg_match('/^[0-9]{13,19}$/', $this->number), "Card number should only contain digits with length between 13 and 19 characters.");
-        DomainException::assert(Luhn::check($this->number), "Number is not a valid credit card number.");
+        DomainException::assert(preg_match('/^[0-9\\*]{13,19}$/', $this->number), "Card number should only contain digits with length between 13 and 19 characters.");
+        // DomainException::assert(Luhn::check($this->number), "Number is not a valid credit card number.");
     }
 
     protected function assertValidExpiryMonth(): void

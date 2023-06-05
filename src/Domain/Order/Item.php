@@ -11,7 +11,7 @@ class Item implements JsonSerializable
     protected string $name;
     protected float $unit_price;
     protected int $quantity;
-    protected string $sku;
+    protected ?string $sku;
     protected ?string $description;
 
     public function __construct(
@@ -19,22 +19,22 @@ class Item implements JsonSerializable
         string $name,
         float $unit_price,
         int $quantity,
-        string $sku,
+        ?string $sku,
         ?string $description
     ) {
         $this->merchant_item_id = $merchant_item_id ? substr(trim($merchant_item_id), 0, 255) : $merchant_item_id;
         $this->name = substr(trim($name), 0, 64);
         $this->unit_price = $unit_price;
         $this->quantity = $quantity;
-        $this->sku = substr(trim($sku), 0, 12);
+        $this->sku = $sku ? substr(trim($sku), 0, 12) : $sku;
         $this->description = $description ? substr(trim($description), 0, 128) : $description;
 
         $this->assertValidMerchantItemId();
         $this->assertValidName();
         $this->assertValidUnitPrice();
         $this->assertValidQuantity();
-        $this->assertValidSku();
-        $this->assertValidDescription();
+        // $this->assertValidSku();
+        // $this->assertValidDescription();
     }
 
     protected function assertValidMerchantItemId(): void

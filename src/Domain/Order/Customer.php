@@ -19,7 +19,7 @@ class Customer implements JsonSerializable
     protected Document $document;
     protected ?Gender $gender;
     protected ?DateTime $birth_date;
-    protected Email $email;
+    protected ?Email $email;
     protected ?MobilePhone $mobile_phone;
     protected ?FixedLinePhone $phone;
 
@@ -29,7 +29,7 @@ class Customer implements JsonSerializable
         Document $document,
         ?Gender $gender,
         ?DateTime $birth_date,
-        Email $email,
+        ?Email $email,
         ?MobilePhone $mobile_phone,
         ?FixedLinePhone $phone
     ) {
@@ -80,7 +80,7 @@ class Customer implements JsonSerializable
             'document' => $this->document->jsonSerialize(),
             'gender' => $this->gender ? (string)$this->gender : null,
             'birth_date' => $this->birth_date ? $this->birth_date->format('Y-m-d') : null,
-            'email' => (string)$this->email,
+            'email' => $this->email ? (string)$this->email : null,
             'mobile_phone' => $this->mobile_phone ? (string)$this->mobile_phone : null,
             'phone' => $this->phone ? (string)$this->phone : null,
         ];

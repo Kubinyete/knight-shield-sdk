@@ -21,10 +21,15 @@ class PaymentMethod implements Stringable
     public const VISAELECTRON = 'visaelectron';
     public const MAESTRO = 'maestro';
     public const ELODEBIT = 'elodebit';
+
+    public const CREDIT_CARD = 'creditcard';
+    public const DEBIT_CARD = 'debitcard';
     public const PIX = 'pix';
     public const BILLET = 'billet';
 
     public const ALLOWED = [
+        self::CREDIT_CARD,
+        self::DEBIT_CARD,
         self::VISA,
         self::MASTERCARD,
         self::ELO,
@@ -123,6 +128,15 @@ class PaymentMethod implements Stringable
         return new static(self::BILLET);
     }
 
+    public static function creditCard(): self
+    {
+        return new static(self::CREDIT_CARD);
+    }
+
+    public static function debitCard(): self
+    {
+        return new static(self::DEBIT_CARD);
+    }
 
     public function __toString(): string
     {
