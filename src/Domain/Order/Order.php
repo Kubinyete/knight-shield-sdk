@@ -16,7 +16,7 @@ class Order implements JsonSerializable
     protected bool $is_recurring;
     protected CurrencyCode $currency;
     protected Customer $customer;
-    protected BillingAddress $billing_address;
+    protected ?BillingAddress $billing_address;
     protected ?ShippingAddress $shipping_address;
     protected Cart $cart;
     protected Factor $factors;
@@ -30,7 +30,7 @@ class Order implements JsonSerializable
         int $installments,
         CurrencyCode $currency,
         Customer $customer,
-        BillingAddress $billing_address,
+        ?BillingAddress $billing_address,
         ?ShippingAddress $shipping_address,
         Factor $factors,
         array $items = [],
@@ -110,7 +110,7 @@ class Order implements JsonSerializable
             'currency' => (string)$this->currency,
             'status' => (string)$this->status,
             'customer' => $this->customer->jsonSerialize(),
-            'billing_address' => $this->billing_address->jsonSerialize(),
+            'billing_address' => $this->billing_address ? $this->billing_address->jsonSerialize() : null,
             'shipping_address' => $this->shipping_address ? $this->shipping_address->jsonSerialize() : null,
             'cart' => $this->cart->jsonSerialize(),
             'factors' => $this->factors->jsonSerialize(),
