@@ -22,12 +22,12 @@ class Item implements JsonSerializable
         ?string $sku,
         ?string $description
     ) {
-        $this->merchant_item_id = $merchant_item_id ? substr(trim($merchant_item_id), 0, 255) : $merchant_item_id;
-        $this->name = substr(trim($name), 0, 64);
+        $this->merchant_item_id = $merchant_item_id ? mb_strcut(trim($merchant_item_id), 0, 255) : $merchant_item_id;
+        $this->name = mb_strcut(trim($name), 0, 64);
         $this->unit_price = $unit_price;
         $this->quantity = $quantity;
-        $this->sku = $sku ? substr(trim($sku), 0, 12) : $sku;
-        $this->description = $description ? substr(trim($description), 0, 128) : $description;
+        $this->sku = $sku ? mb_strcut(trim($sku), 0, 12) : $sku;
+        $this->description = $description ? mb_strcut(trim($description), 0, 128) : $description;
 
         $this->assertValidMerchantItemId();
         $this->assertValidName();

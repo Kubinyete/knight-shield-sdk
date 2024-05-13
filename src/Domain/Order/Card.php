@@ -20,10 +20,10 @@ class Card implements JsonSerializable
         string $expiry_month,
         string $expiry_year
     ) {
-        $this->holder = substr(trim($holder), 0, 128);
-        $this->number = substr(trim($number), 0, 19);
-        $this->expiry_month = substr(trim($expiry_month), 0, 2);
-        $this->expiry_year = substr(trim($expiry_year), 0, 4);
+        $this->holder = mb_strcut(trim($holder), 0, 128);
+        $this->number = mb_strcut(trim($number), 0, 19);
+        $this->expiry_month = mb_strcut(trim($expiry_month), 0, 2);
+        $this->expiry_year = mb_strcut(trim($expiry_year), 0, 4);
 
         // $this->assertValidHolder();
         $this->assertValidNumber();

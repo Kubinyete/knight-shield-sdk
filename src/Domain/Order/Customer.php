@@ -33,8 +33,8 @@ class Customer implements JsonSerializable
         ?MobilePhone $mobile_phone,
         ?FixedLinePhone $phone
     ) {
-        $this->merchant_customer_id = $merchant_customer_id ? substr(trim($merchant_customer_id), 0, 256) : $merchant_customer_id;
-        $this->full_name = substr(trim($full_name), 0, 128);
+        $this->merchant_customer_id = $merchant_customer_id ? mb_strcut(trim($merchant_customer_id), 0, 256) : $merchant_customer_id;
+        $this->full_name = mb_strcut(trim($full_name), 0, 128);
         $this->document = $document;
         $this->gender = $gender;
         $this->birth_date = $birth_date;

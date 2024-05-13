@@ -31,11 +31,11 @@ abstract class Address implements JsonSerializable
     ) {
         $this->country = $country;
         $this->state = $state;
-        $this->street = substr(trim($street), 0, 128);
-        $this->number = substr(trim($number), 0, 16);
-        $this->district = substr(trim($district), 0, 64);
-        $this->complement = $complement ? substr(trim($complement), 0, 64) : $complement;
-        $this->city = substr(trim($city), 0, 64);
+        $this->street = mb_strcut(trim($street), 0, 128);
+        $this->number = mb_strcut(trim($number), 0, 16);
+        $this->district = mb_strcut(trim($district), 0, 64);
+        $this->complement = $complement ? mb_strcut(trim($complement), 0, 64) : $complement;
+        $this->city = mb_strcut(trim($city), 0, 64);
         $this->zipcode = preg_replace('/[^0-9]/', '', $zipcode);
     }
 

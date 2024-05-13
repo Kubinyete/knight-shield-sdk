@@ -32,9 +32,9 @@ class ShippingAddress extends Address
         parent::__construct($country, $state, $street, $number, $district, $complement, $city, $zipcode);
 
         $this->shipping_cost = $shipping_cost;
-        $this->shipping_tracking_number = $shipping_tracking_number ? substr(trim($shipping_tracking_number), 0, 32) : $shipping_tracking_number;
-        $this->shipping_comment = $shipping_comment ? substr(trim($shipping_comment), 0, 256) : $shipping_comment;
-        $this->shipping_provider = $shipping_provider ? substr(trim($shipping_provider), 0, 256) : $shipping_provider;
+        $this->shipping_tracking_number = $shipping_tracking_number ? mb_strcut(trim($shipping_tracking_number), 0, 32) : $shipping_tracking_number;
+        $this->shipping_comment = $shipping_comment ? mb_strcut(trim($shipping_comment), 0, 256) : $shipping_comment;
+        $this->shipping_provider = $shipping_provider ? mb_strcut(trim($shipping_provider), 0, 256) : $shipping_provider;
 
         $this->assertValidShippingCost();
     }
