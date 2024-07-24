@@ -7,7 +7,7 @@ abstract class Luhn
     public static function check(string $string): bool
     {
         $digitsOnly = preg_replace('/[^0-9]+/', '', $string);
-        $length = strlen($digitsOnly);
+        $length = mb_strlen($digitsOnly);
         $shouldDouble = false;
         $sum = 0;
 

@@ -2,12 +2,12 @@
 
 namespace Kubinyete\KnightShieldSdk\Domain\Person;
 
+use Stringable;
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
+use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 use Kubinyete\KnightShieldSdk\Domain\Person\Validation\DocumentLocaleValidator;
 use Kubinyete\KnightShieldSdk\Domain\Person\Validation\Exception\ValidationNotImplementedException;
-use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
-use Stringable;
 
 class Document implements JsonSerializable, Stringable
 {
@@ -28,22 +28,7 @@ class Document implements JsonSerializable, Stringable
     protected function assertValueIsCorrect(string $value): string
     {
         $value = trim($value);
-
-        try {
-            $validator = new DocumentLocaleValidator($this->nationality);
-
-            switch ((string)$this->type) {
-                case DocumentType::TAX_ID:
-                    $value = $validator->getLocaleValidator()->validateAsTaxId($value);
-                case DocumentType::ID_CARD:
-                    $value = $validator->getLocaleValidator()->validateAsIdCard($value);
-                case DocumentType::PASSPORT:
-                    $value = $validator->getLocaleValidator()->validateAsPassport($value);
-            }
-        } catch (ValidationNotImplementedException $e) {
-        }
-
-        DomainException::assert(strlen($value) > 0, "Cannot specify an empty document number");
+        DomainException::assert(mb_strlen($value) > 0, "Cannot specify an empty document number");
         return $value;
     }
 

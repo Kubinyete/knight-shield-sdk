@@ -2,21 +2,21 @@
 
 namespace Kubinyete\KnightShieldSdk\Domain\Order;
 
-use DateInterval;
 use DateTime;
+use DateInterval;
 use JsonSerializable;
 use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
-use Kubinyete\KnightShieldSdk\Domain\Contact\FixedLinePhone;
-use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
-use Kubinyete\KnightShieldSdk\Domain\Person\Document;
 use Kubinyete\KnightShieldSdk\Domain\Person\Gender;
+use Kubinyete\KnightShieldSdk\Domain\Person\Document;
+use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
+use Kubinyete\KnightShieldSdk\Domain\Contact\FixedLinePhone;
 use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class Customer implements JsonSerializable
 {
     protected ?string $merchant_customer_id;
-    protected string $full_name;
-    protected Document $document;
+    protected ?string $full_name;
+    protected ?Document $document;
     protected ?Gender $gender;
     protected ?DateTime $birth_date;
     protected ?Email $email;
@@ -25,16 +25,16 @@ class Customer implements JsonSerializable
 
     public function __construct(
         ?string $merchant_customer_id,
-        string $full_name,
-        Document $document,
+        ?string $full_name,
+        ?Document $document,
         ?Gender $gender,
         ?DateTime $birth_date,
         ?Email $email,
         ?MobilePhone $mobile_phone,
         ?FixedLinePhone $phone
     ) {
-        $this->merchant_customer_id = $merchant_customer_id ? mb_strcut(trim($merchant_customer_id), 0, 256) : $merchant_customer_id;
-        $this->full_name = mb_strcut(trim($full_name), 0, 128);
+        $this->merchant_customer_id = is_null($merchant_customer_id) ? $merchant_customer_id : mb_strcut(trim($merchant_customer_id), 0, 256);
+        $this->full_name = is_null($full_name) ? $full_name : mb_strcut(trim($full_name), 0, 128);
         $this->document = $document;
         $this->gender = $gender;
         $this->birth_date = $birth_date;
@@ -54,13 +54,15 @@ class Customer implements JsonSerializable
 
     protected function assertValidFullname(): void
     {
-        $len = strlen($this->full_name);
+        if (is_null($this->full_name)) return;
+
+        $len = mb_strlen($this->full_name);
         DomainException::assert($len > 0 && $len <= 128, "Full name should not be empty or is too long to be accepted.");
     }
 
     protected function assertValidBirthdate(): void
     {
-        if (!$this->birth_date) return;
+        if (is_null($this->birth_date)) return;
 
         $now = new DateTime();
         $diff = $now->diff($this->birth_date);
@@ -69,7 +71,7 @@ class Customer implements JsonSerializable
 
     public function __toString(): string
     {
-        return $this->full_name;
+        return $this->full_name ?? '';
     }
 
     public function jsonSerialize()
@@ -77,7 +79,7 @@ class Customer implements JsonSerializable
         return [
             'merchant_customer_id' => $this->merchant_customer_id,
             'full_name' => $this->full_name,
-            'document' => $this->document->jsonSerialize(),
+            'document' => $this->document?->jsonSerialize(),
             'gender' => $this->gender ? (string)$this->gender : null,
             'birth_date' => $this->birth_date ? $this->birth_date->format('Y-m-d') : null,
             'email' => $this->email ? (string)$this->email : null,

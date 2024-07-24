@@ -2,8 +2,8 @@
 
 namespace Kubinyete\KnightShieldSdk\Domain\Person;
 
-use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 use Stringable;
+use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class Cnpj implements Stringable
 {
@@ -19,7 +19,7 @@ class Cnpj implements Stringable
     {
         $raw = preg_replace('/[^0-9]/', '', $value);
         $raw = str_pad($raw, 14, '0', STR_PAD_LEFT);
-        DomainException::assert(strlen($raw), "CNPJ must be 11 characters long after sanetization");
+        DomainException::assert(mb_strlen($raw), "CNPJ must be 11 characters long after sanetization");
 
         $split = str_split($raw);
         $initial = $split[0];
