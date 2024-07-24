@@ -2,26 +2,26 @@
 
 namespace Tests;
 
-use DateInterval;
 use DateTime;
+use DateInterval;
 use Kubinyete\KnightShieldSdk\App\ApiClient;
-use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
-use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
-use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
-use Kubinyete\KnightShieldSdk\Domain\Locale\CurrencyCode;
-use Kubinyete\KnightShieldSdk\Domain\Order\PaymentMethod;
-use Kubinyete\KnightShieldSdk\Domain\Locale\StateCode;
 use Kubinyete\KnightShieldSdk\Domain\Order\Card;
-use Kubinyete\KnightShieldSdk\Domain\Order\Customer;
-use Kubinyete\KnightShieldSdk\Domain\Order\Factor;
 use Kubinyete\KnightShieldSdk\Domain\Order\Item;
 use Kubinyete\KnightShieldSdk\Domain\Order\Order;
-use Kubinyete\KnightShieldSdk\Domain\Order\Payment;
-use Kubinyete\KnightShieldSdk\Domain\Address\BillingAddress;
+use Kubinyete\KnightShieldSdk\Domain\Order\Factor;
 use Kubinyete\KnightShieldSdk\Domain\Auth\ApiToken;
-use Kubinyete\KnightShieldSdk\Domain\Person\Document;
-use Kubinyete\KnightShieldSdk\Domain\Person\DocumentType;
+use Kubinyete\KnightShieldSdk\Domain\Contact\Email;
+use Kubinyete\KnightShieldSdk\Domain\Order\Payment;
 use Kubinyete\KnightShieldSdk\Domain\Person\Gender;
+use Kubinyete\KnightShieldSdk\Domain\Order\Customer;
+use Kubinyete\KnightShieldSdk\Domain\Person\Document;
+use Kubinyete\KnightShieldSdk\Domain\Locale\StateCode;
+use Kubinyete\KnightShieldSdk\Domain\Locale\CountryCode;
+use Kubinyete\KnightShieldSdk\Domain\Contact\MobilePhone;
+use Kubinyete\KnightShieldSdk\Domain\Locale\CurrencyCode;
+use Kubinyete\KnightShieldSdk\Domain\Order\PaymentMethod;
+use Kubinyete\KnightShieldSdk\Domain\Person\DocumentType;
+use Kubinyete\KnightShieldSdk\Domain\Address\BillingAddress;
 use Kubinyete\KnightShieldSdk\Shared\Exception\DomainException;
 
 class DomainOrderTest extends TestCase
@@ -193,6 +193,7 @@ class DomainOrderTest extends TestCase
                     ],
                 ]
             ],
+            "is_recurring" => false,
             "metadata" => null,
         ], $order->jsonSerialize());
     }
