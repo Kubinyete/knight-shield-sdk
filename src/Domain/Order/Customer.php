@@ -66,7 +66,8 @@ class Customer implements JsonSerializable
 
         $now = new DateTime();
         $diff = $now->diff($this->birth_date);
-        DomainException::assert($diff->y >= 12, "Birth date doesn't make sense and cannot be accepted.");
+
+        $this->birth_date = $diff->y >= 1 ? $this->birth_date : null;
     }
 
     public function __toString(): string
@@ -74,7 +75,7 @@ class Customer implements JsonSerializable
         return $this->full_name ?? '';
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'merchant_customer_id' => $this->merchant_customer_id,
